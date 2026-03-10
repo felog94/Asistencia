@@ -1,0 +1,85 @@
+:root {
+    --bg-color: #1a1a1a;
+    --card-bg: #2d2d2d;
+    --text-color: #ffffff;
+    --btn-presente: #4CAF50;
+    --btn-falta: #F44336;
+    --btn-feriado: #9E9E9E;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 16px;
+    padding-bottom: 40px;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.materia-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-safe { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+.status-danger { background-color: rgba(244, 67, 54, 0.2); color: #F44336; }
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: 16px;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+button:active { opacity: 0.8; }
+
+.btn-presente { background-color: var(--btn-presente); }
+.btn-falta { background-color: var(--btn-falta); }
+.btn-feriado { background-color: var(--btn-feriado); color: #333; }
