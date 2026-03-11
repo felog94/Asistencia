@@ -61,3 +61,18 @@ function renderizar() {
 }
 
 renderizar();
+
+function reiniciarCuatrimestre() {
+    const palabrasLocas = ["parcial", "promocion", "estudio", "cafe", "sistemas"];
+    const palabraElegida = palabrasLocas[Math.floor(Math.random() * palabrasLocas.length)];
+    
+    const respuesta = prompt(`⚠️ ¿Seguro querés borrar todo el progreso?\nPara confirmar, escribí la palabra: ${palabraElegida}`);
+    
+    if (respuesta && respuesta.toLowerCase() === palabraElegida) {
+        materias = defaultMaterias.map(m => ({ ...m, presentes: 0, faltas: 0, feriados: 0 }));
+        guardarDatos();
+        alert("Listo. Cuatrimestre en cero. ¡A romperla!");
+    } else if (respuesta !== null) {
+        alert("Palabra incorrecta. No se borró nada.");
+    }
+}
