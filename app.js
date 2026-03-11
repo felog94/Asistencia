@@ -1,3 +1,20 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPMC_DATf2kfQ2HZk5Un_cIiPIUEgTl1s",
+  authDomain: "asistencia-d391b.firebaseapp.com",
+  projectId: "asistencia-d391b",
+  storageBucket: "asistencia-d391b.firebasestorage.app",
+  messagingSenderId: "464826516544",
+  appId: "1:464826516544:web:9ae63b31e2e12a6748cba5"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
 const defaultMaterias = [
     { id: 1, nombre: 'AyM', presentes: 0, faltas: 0, feriados: 0 },
     { id: 2, nombre: 'BBDD2', presentes: 0, faltas: 0, feriados: 0 },
@@ -6,37 +23,104 @@ const defaultMaterias = [
     { id: 5, nombre: 'P2', presentes: 0, faltas: 0, feriados: 0 }
 ];
 
-let materias = JSON.parse(localStorage.getItem('asistenciaFacu')) || defaultMaterias;
+let materias = [];
+let userId = null;
 
-const container = document.getElementById('app-container');
+const loginContainer = document.getElementById('login-container');
+const appContainer = document.getElementById('app-container');
+const materiasContainer = document.getElementById('materias-container');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const btnLogin = document.getElementById('btn-login');
+const loginError = document.getElementById('login-error');
+const btnReset = document.getElementById('btn-reset');
+const btnLogout = document.getElementById('btn-logout');
 
-function guardarDatos() {
-    localStorage.setItem('asistenciaFacu', JSON.stringify(materias));
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        userId = user.uid;
+        loginContainer.style.display = 'none';
+        appContainer.style.display = 'block';
+        await cargarDatos();
+    } else {
+        userId = null;
+        loginContainer.style.display = 'block';
+        appContainer.style.display = 'none';
+    }
+});
+
+btnLogin.addEventListener('click', () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    btnLogin.innerText = "Cargando...";
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => { 
+            loginError.style.display = 'none'; 
+            btnLogin.innerText = "Entrar a la app";
+        })
+        .catch((error) => { 
+            loginError.style.display = 'block'; 
+            btnLogin.innerText = "Entrar a la app";
+        });
+});
+
+btnLogout.addEventListener('click', () => {
+    signOut(auth);
+});
+
+async function cargarDatos() {
+    const docRef = doc(db, "usuarios", userId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        materias = docSnap.data().materias;
+    } else {
+        materias = defaultMaterias;
+        await setDoc(docRef, { materias: materias });
+    }
     renderizar();
 }
 
-function registrar(id, tipo) {
+async function guardarDatos() {
+    const docRef = doc(db, "usuarios", userId);
+    await setDoc(docRef, { materias: materias });
+    renderizar();
+}
+
+window.registrar = function(id, tipo) {
     const materia = materias.find(m => m.id === id);
     if (materia) {
         materia[tipo]++;
         guardarDatos();
     }
-}
+};
+
+btnReset.addEventListener('click', async () => {
+    const palabrasLocas = ["parcial", "promocion", "estudio", "cafe", "sistemas"];
+    const palabraElegida = palabrasLocas[Math.floor(Math.random() * palabrasLocas.length)];
+    
+    const respuesta = prompt(`⚠️ ¿Seguro querés borrar todo tu progreso de la base de datos?\nPara confirmar, escribí: ${palabraElegida}`);
+    
+    if (respuesta && respuesta.toLowerCase() === palabraElegida) {
+        materias = defaultMaterias.map(m => ({ ...m, presentes: 0, faltas: 0, feriados: 0 }));
+        await guardarDatos();
+        alert("Listo. Cuatrimestre en cero en todos tus dispositivos.");
+    }
+});
 
 function renderizar() {
-    container.innerHTML = '';
+    materiasContainer.innerHTML = '';
     
     materias.forEach(materia => {
         const clasesReales = materia.presentes + materia.faltas;
-        let porcentaje = 100;
-        
+        let porcentaje = 100; 
         if (clasesReales > 0) {
             porcentaje = (materia.presentes / clasesReales) * 100;
         }
 
         const isSafe = porcentaje >= 75;
         const statusClass = isSafe ? 'status-safe' : 'status-danger';
-        const statusText = isSafe ? 'Ok ✅' : 'Ojo ⚠️';
+        const statusText = isSafe ? 'A SALVO ✅' : 'PELIGRO ⚠️';
 
         const card = document.createElement('div');
         card.className = 'card';
@@ -56,23 +140,6 @@ function renderizar() {
                 <button class="btn-feriado" onclick="registrar(${materia.id}, 'feriados')">⚪</button>
             </div>
         `;
-        container.appendChild(card);
+        materiasContainer.appendChild(card);
     });
-}
-
-renderizar();
-
-function reiniciarCuatrimestre() {
-    const palabrasLocas = ["parcial", "promocion", "estudio", "cafe", "sistemas"];
-    const palabraElegida = palabrasLocas[Math.floor(Math.random() * palabrasLocas.length)];
-    
-    const respuesta = prompt(`⚠️ ¿Seguro querés borrar todo el progreso?\nPara confirmar, escribí la palabra: ${palabraElegida}`);
-    
-    if (respuesta && respuesta.toLowerCase() === palabraElegida) {
-        materias = defaultMaterias.map(m => ({ ...m, presentes: 0, faltas: 0, feriados: 0 }));
-        guardarDatos();
-        alert("Listo. Cuatrimestre en cero. ¡A romperla!");
-    } else if (respuesta !== null) {
-        alert("Palabra incorrecta. No se borró nada.");
-    }
 }
