@@ -124,7 +124,7 @@ function renderizar() {
 
         const isSafe = porcentaje >= 75;
         const statusClass = isSafe ? 'status-safe' : 'status-danger';
-        const statusText = isSafe ? 'A SALVO ✅' : 'PELIGRO ⚠️';
+        const statusText = isSafe ? 'Godines' : 'Boludazo';
 
         const card = document.createElement('div');
         card.className = 'card';
