@@ -87,10 +87,14 @@ async function guardarDatos() {
     renderizar();
 }
 
-window.registrar = function(id, tipo) {
+window.registrar = function(id, tipo, operacion) {
     const materia = materias.find(m => m.id === id);
     if (materia) {
-        materia[tipo]++;
+        if (operacion === 'sumar') {
+            materia[tipo]++;
+        } else if (operacion === 'restar' && materia[tipo] > 0) {
+            materia[tipo]--;
+        }
         guardarDatos();
     }
 };
