@@ -156,11 +156,6 @@ function renderizar() {
                     </div>
                 </div>
             </div>
-            <div class="buttons-main">
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">Registro rápido:</p>
-                <button class="btn-presente" onclick="registrar(${materia.id}, 'presentes', 'sumar')">✔️ Presente</button>
-                <button class="btn-falta" onclick="registrar(${materia.id}, 'faltas', 'sumar')">✖️ Falta</button>
-            </div>
         `;
         materiasContainer.appendChild(card);
     });
