@@ -133,15 +133,33 @@ function renderizar() {
                 <h2 class="materia-title">${materia.nombre}</h2>
                 <span class="status-badge ${statusClass}">${porcentaje.toFixed(1)}% | ${statusText}</span>
             </div>
-            <div class="stats">
-                <span>Presentes: ${materia.presentes}</span>
-                <span>Faltas: ${materia.faltas}</span>
-                <span>Feriados: ${materia.feriados}</span>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span>Presentes: <strong>${materia.presentes}</strong></span>
+                    <div class="mini-controls">
+                        <button onclick="registrar(${materia.id}, 'presentes', 'restar')">-</button>
+                        <button onclick="registrar(${materia.id}, 'presentes', 'sumar')">+</button>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span>Faltas: <strong>${materia.faltas}</strong></span>
+                    <div class="mini-controls">
+                        <button onclick="registrar(${materia.id}, 'faltas', 'restar')">-</button>
+                        <button onclick="registrar(${materia.id}, 'faltas', 'sumar')">+</button>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span>Feriados: <strong>${materia.feriados}</strong></span>
+                    <div class="mini-controls">
+                        <button onclick="registrar(${materia.id}, 'feriados', 'restar')">-</button>
+                        <button onclick="registrar(${materia.id}, 'feriados', 'sumar')">+</button>
+                    </div>
+                </div>
             </div>
-            <div class="buttons">
-                <button class="btn-presente" onclick="registrar(${materia.id}, 'presentes')">✔️</button>
-                <button class="btn-falta" onclick="registrar(${materia.id}, 'faltas')">❌</button>
-                <button class="btn-feriado" onclick="registrar(${materia.id}, 'feriados')">⚪</button>
+            <div class="buttons-main">
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">Registro rápido:</p>
+                <button class="btn-presente" onclick="registrar(${materia.id}, 'presentes', 'sumar')">✔️ Presente</button>
+                <button class="btn-falta" onclick="registrar(${materia.id}, 'faltas', 'sumar')">✖️ Falta</button>
             </div>
         `;
         materiasContainer.appendChild(card);
