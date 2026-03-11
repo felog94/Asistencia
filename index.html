@@ -13,18 +13,25 @@
         <h1>Control de Asistencia</h1>
     </header>
     
-    <main id="app-container">
+    <div id="login-container" style="display: none; padding: 20px; text-align: center;">
+        <h2 style="margin-bottom: 20px;">Iniciar Sesión</h2>
+        <input type="email" id="email" placeholder="Correo electrónico" style="width:100%; padding:12px; margin-bottom:12px; border-radius:8px; border:none; box-sizing: border-box; background-color: #333; color: white;">
+        <input type="password" id="password" placeholder="Contraseña" style="width:100%; padding:12px; margin-bottom:24px; border-radius:8px; border:none; box-sizing: border-box; background-color: #333; color: white;">
+        <button id="btn-login" style="width:100%; padding:14px; background-color:#4CAF50; border:none; border-radius:8px; color:white; font-weight:bold; font-size: 1rem; cursor: pointer;">Entrar a la app</button>
+        <p id="login-error" style="color:#F44336; display:none; margin-top:16px;">Error de usuario o contraseña.</p>
+    </div>
+
+    <main id="app-container" style="display: none;">
+        <div id="materias-container"></div>
+        
+        <button id="btn-reset" style="width: 100%; background-color: transparent; border: 2px solid #F44336; color: #F44336; margin-top: 24px; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;">🔄 Reiniciar Cuatrimestre</button>
+        <button id="btn-logout" style="width: 100%; background-color: transparent; border: 2px solid #9E9E9E; color: #9E9E9E; margin-top: 12px; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;">Cerrar Sesión</button>
     </main>
 
-    <button class="btn-reset-app" onclick="reiniciarCuatrimestre()">🔄 Reiniciar Cuatrimestre</button>
-
-    <script src="app.js"></script>
-
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('Service Worker registrado con éxito'))
             .catch(err => console.error('Error al registrar SW:', err));
         }
     </script>
