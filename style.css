@@ -81,7 +81,10 @@ button {
 button:active { opacity: 0.8; }
 
 .btn-presente { background-color: var(--btn-presente); }
-.btn-falta { background-color: var(--btn-falta); }
+.btn-falta { 
+    background-color: transparent; 
+    border: 2px solid var(--btn-falta); 
+}
 .btn-feriado { background-color: var(--btn-feriado); color: #333; }
 
 .btn-reset-app {
