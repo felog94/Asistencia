@@ -95,3 +95,42 @@ button:active { opacity: 0.8; }
     margin-top: 24px;
     margin-bottom: 24px;
 }
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2a2a2a;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.mini-controls button {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    margin-left: 5px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.mini-controls button:active {
+    background: #666;
+}
+
+.buttons-main {
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
